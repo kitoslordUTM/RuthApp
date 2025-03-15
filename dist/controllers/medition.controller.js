@@ -4,7 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateMedition = exports.getMeditions = exports.getMeditionById = exports.deleteMedition = exports.createMedition = void 0;
+exports.updateMedition = exports.getMeditionsByUserId = exports.deleteMedition = exports.createMedition = void 0;
 var _medition = _interopRequireDefault(require("../models/medition.model"));
 var _user = _interopRequireDefault(require("../models/user.model"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -60,13 +60,13 @@ var createMedition = exports.createMedition = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-var getMeditions = exports.getMeditions = /*#__PURE__*/function () {
+var getMeditionsByUserId = exports.getMeditionsByUserId = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
     var userId, user, meditions;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          userId = req.userId;
+          userId = req.params.userId; // Obtener userId desde los parámetros de la URL
           _context2.prev = 1;
           _context2.next = 4;
           return _user["default"].findById(userId);
@@ -99,107 +99,49 @@ var getMeditions = exports.getMeditions = /*#__PURE__*/function () {
       }
     }, _callee2, null, [[1, 13]]);
   }));
-  return function getMeditions(_x3, _x4) {
+  return function getMeditionsByUserId(_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }();
-var getMeditionById = exports.getMeditionById = /*#__PURE__*/function () {
+var updateMedition = exports.updateMedition = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var userId, id, user, medition;
+    var userId, id, _req$body2, ldr, soilHumidity, soilState, humidity, temperature, date, user, medition;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           userId = req.userId;
           id = req.params.id;
-          _context3.prev = 2;
-          _context3.next = 5;
-          return _user["default"].findById(userId);
-        case 5:
-          user = _context3.sent;
-          if (user) {
-            _context3.next = 8;
-            break;
-          }
-          return _context3.abrupt("return", res.status(404).json({
-            message: 'User not found'
-          }));
-        case 8:
-          _context3.next = 10;
-          return _medition["default"].findById(id);
-        case 10:
-          medition = _context3.sent;
-          if (medition) {
-            _context3.next = 13;
-            break;
-          }
-          return _context3.abrupt("return", res.status(404).json({
-            message: 'Medition not found'
-          }));
-        case 13:
-          if (!(medition.user.toString() !== userId)) {
-            _context3.next = 15;
-            break;
-          }
-          return _context3.abrupt("return", res.status(403).json({
-            message: 'Access forbidden'
-          }));
-        case 15:
-          return _context3.abrupt("return", res.status(200).json(medition));
-        case 18:
-          _context3.prev = 18;
-          _context3.t0 = _context3["catch"](2);
-          return _context3.abrupt("return", res.status(500).json({
-            message: _context3.t0.message
-          }));
-        case 21:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3, null, [[2, 18]]);
-  }));
-  return function getMeditionById(_x5, _x6) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-var updateMedition = exports.updateMedition = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
-    var userId, id, _req$body2, ldr, soilHumidity, soilState, humidity, temperature, date, user, medition;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
-        case 0:
-          userId = req.userId;
-          id = req.params.id;
           _req$body2 = req.body, ldr = _req$body2.ldr, soilHumidity = _req$body2.soilHumidity, soilState = _req$body2.soilState, humidity = _req$body2.humidity, temperature = _req$body2.temperature, date = _req$body2.date;
-          _context4.prev = 3;
-          _context4.next = 6;
+          _context3.prev = 3;
+          _context3.next = 6;
           return _user["default"].findById(userId);
         case 6:
-          user = _context4.sent;
+          user = _context3.sent;
           if (user) {
-            _context4.next = 9;
+            _context3.next = 9;
             break;
           }
-          return _context4.abrupt("return", res.status(404).json({
+          return _context3.abrupt("return", res.status(404).json({
             message: 'User not found'
           }));
         case 9:
-          _context4.next = 11;
+          _context3.next = 11;
           return _medition["default"].findById(id);
         case 11:
-          medition = _context4.sent;
+          medition = _context3.sent;
           if (medition) {
-            _context4.next = 14;
+            _context3.next = 14;
             break;
           }
-          return _context4.abrupt("return", res.status(404).json({
+          return _context3.abrupt("return", res.status(404).json({
             message: 'Medition not found'
           }));
         case 14:
           if (!(medition.user.toString() !== userId)) {
-            _context4.next = 16;
+            _context3.next = 16;
             break;
           }
-          return _context4.abrupt("return", res.status(403).json({
+          return _context3.abrupt("return", res.status(403).json({
             message: 'Access forbidden'
           }));
         case 16:
@@ -210,86 +152,86 @@ var updateMedition = exports.updateMedition = /*#__PURE__*/function () {
           medition.humidity = humidity || medition.humidity;
           medition.temperature = temperature || medition.temperature;
           medition.date = date || medition.date;
-          _context4.next = 24;
+          _context3.next = 24;
           return medition.save();
         case 24:
-          return _context4.abrupt("return", res.status(200).json(medition));
+          return _context3.abrupt("return", res.status(200).json(medition));
         case 27:
-          _context4.prev = 27;
-          _context4.t0 = _context4["catch"](3);
-          return _context4.abrupt("return", res.status(500).json({
-            message: _context4.t0.message
+          _context3.prev = 27;
+          _context3.t0 = _context3["catch"](3);
+          return _context3.abrupt("return", res.status(500).json({
+            message: _context3.t0.message
           }));
         case 30:
         case "end":
-          return _context4.stop();
+          return _context3.stop();
       }
-    }, _callee4, null, [[3, 27]]);
+    }, _callee3, null, [[3, 27]]);
   }));
-  return function updateMedition(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function updateMedition(_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
 }();
 var deleteMedition = exports.deleteMedition = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
+  var _ref4 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
     var userId, id, user, medition;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
         case 0:
           userId = req.userId;
           id = req.params.id;
-          _context5.prev = 2;
-          _context5.next = 5;
+          _context4.prev = 2;
+          _context4.next = 5;
           return _user["default"].findById(userId);
         case 5:
-          user = _context5.sent;
+          user = _context4.sent;
           if (user) {
-            _context5.next = 8;
+            _context4.next = 8;
             break;
           }
-          return _context5.abrupt("return", res.status(404).json({
+          return _context4.abrupt("return", res.status(404).json({
             message: 'User not found'
           }));
         case 8:
-          _context5.next = 10;
+          _context4.next = 10;
           return _medition["default"].findById(id);
         case 10:
-          medition = _context5.sent;
+          medition = _context4.sent;
           if (medition) {
-            _context5.next = 13;
+            _context4.next = 13;
             break;
           }
-          return _context5.abrupt("return", res.status(404).json({
+          return _context4.abrupt("return", res.status(404).json({
             message: 'Medition not found'
           }));
         case 13:
           if (!(medition.user.toString() !== userId)) {
-            _context5.next = 15;
+            _context4.next = 15;
             break;
           }
-          return _context5.abrupt("return", res.status(403).json({
+          return _context4.abrupt("return", res.status(403).json({
             message: 'Access forbidden'
           }));
         case 15:
-          _context5.next = 17;
+          _context4.next = 17;
           return medition.remove();
         case 17:
-          return _context5.abrupt("return", res.status(200).json({
+          return _context4.abrupt("return", res.status(200).json({
             message: 'Medition deleted'
           }));
         case 20:
-          _context5.prev = 20;
-          _context5.t0 = _context5["catch"](2);
-          return _context5.abrupt("return", res.status(500).json({
-            message: _context5.t0.message
+          _context4.prev = 20;
+          _context4.t0 = _context4["catch"](2);
+          return _context4.abrupt("return", res.status(500).json({
+            message: _context4.t0.message
           }));
         case 23:
         case "end":
-          return _context5.stop();
+          return _context4.stop();
       }
-    }, _callee5, null, [[2, 20]]);
+    }, _callee4, null, [[2, 20]]);
   }));
-  return function deleteMedition(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function deleteMedition(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }();

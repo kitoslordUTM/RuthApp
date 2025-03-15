@@ -28,54 +28,24 @@ export const createMedition = async (req, res) => {
   }
 };
 
-export const getMeditions = async (req, res) => {
-    const { userId } = req;
-  
-    try {
-      // Verifica si el usuario existe
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Encuentra todas las mediciones asociadas al usuario
-      const meditions = await Medition.find({ user: userId });
-  
-      return res.status(200).json(meditions);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  };
-  
+  export const getMeditionsByUserId = async (req, res) => {
+    const { userId } = req.params; // Obtener userId desde los parámetros de la URL
 
-  export const getMeditionById = async (req, res) => {
-    const { userId } = req;
-    const { id } = req.params;
-  
     try {
-      // Verifica si el usuario existe
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Encuentra la medición por su ID
-      const medition = await Medition.findById(id);
-      if (!medition) {
-        return res.status(404).json({ message: 'Medition not found' });
-      }
-  
-      // Verifica que la medición esté asociada al usuario
-      if (medition.user.toString() !== userId) {
-        return res.status(403).json({ message: 'Access forbidden' });
-      }
-  
-      return res.status(200).json(medition);
+        // Verifica si el usuario existe
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Encuentra todas las mediciones asociadas al usuario
+        const meditions = await Medition.find({ user: userId });
+
+        return res.status(200).json(meditions);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
   };
-  
 
   export const updateMedition = async (req, res) => {
     const { userId } = req;

@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { createMedition, getMeditions, getMeditionById } from "../controllers/medition.controller";
+import { createMedition  } from "../controllers/medition.controller";
+import { getMeditionsByUserId } from "../controllers/medition.controller";
 
 const router = Router();
 
 router.post('/', createMedition);
-router.get('/', getMeditions);
-router.get('/:userId', getMeditionById);
+
+router.get("/user/:userId", getMeditionsByUserId);
 
 
 export default router;
